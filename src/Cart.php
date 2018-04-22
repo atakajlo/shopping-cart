@@ -114,6 +114,7 @@ class Cart
      */
     public function clearItems(): void
     {
+        $this->items = [];
         $this->storage->clear();
     }
 }

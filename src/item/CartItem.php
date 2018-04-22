@@ -7,7 +7,6 @@ class CartItem implements CartItemInterface
     use CartItemTrait;
 
     private $id;
-    private $price;
 
     public function __construct($id, $price, int $quantity)
     {
@@ -22,13 +21,5 @@ class CartItem implements CartItemInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return float
-     */
-    public function getPrice(): float
-    {
-        return $this->price;
     }
 }

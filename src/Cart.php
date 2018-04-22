@@ -48,6 +48,7 @@ class Cart
         if (isset($this->items[$item->getId()])) {
             $quantity = $this->items[$item->getId()]->getQuantity() + $item->getQuantity();
             $this->items[$item->getId()]->setQuantity($quantity);
+            $this->items[$item->getId()]->setPrice($item->getPrice());
         } else {
             $this->items[$item->getId()] = $item;
         }
@@ -72,7 +73,7 @@ class Cart
     public function removeById($id): void
     {
         unset($this->items[$id]);
-        
+
         if ($this->autoSave)
             $this->saveItems();
     }

@@ -1,0 +1,24 @@
+{
+    "name": "atakajlo/shopping-cart",
+    "description": "Basic cart component for your site",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmytro Fedorenko",
+            "email": "atakajlo@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "atakajlo\\cart\\": "src/"
+        }
+    }
+}

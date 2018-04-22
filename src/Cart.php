@@ -12,42 +12,48 @@ class Cart
      * @var CartItemInterface[]
      */
     private $items = [];
-
     /**
      * @var StorageInterface
      */
     private $storage;
-
     /**
      * @var CalculatorInterface
      */
     private $calculator;
+    /**
+     * @var bool
+     */
+    private $autoSave;
 
     /**
      * Cart constructor.
      * @param StorageInterface $storage
      * @param CalculatorInterface $calculator
+     * @param bool $autoSave
      */
-    public function __construct(StorageInterface $storage, CalculatorInterface $calculator)
+    public function __construct(StorageInterface $storage, CalculatorInterface $calculator, bool $autoSave = true)
     {
         $this->storage = $storage;
         $this->calculator = $calculator;
+        $this->autoSave = $autoSave;
         $this->loadItems();
     }
 
     /**
      * @param CartItemInterface $item
-     * @param int $quantity
      * @return void
      */
-    public function add(CartItemInterface $item, $quantity = 1): void
+    public function add(CartItemInterface $item): void
     {
         if (isset($this->items[$item->getId()])) {
-            $quantity += $item->getQuantity();
+            $quantity = $this->items[$item->getId()]->getQuantity() + $item->getQuantity();
             $this->items[$item->getId()]->setQuantity($quantity);
         } else {
             $this->items[$item->getId()] = $item;
         }
+
+        if ($this->autoSave)
+            $this->saveItems();
     }
 
     /**
@@ -66,6 +72,9 @@ class Cart
     public function removeById($id): void
     {
         unset($this->items[$id]);
+        
+        if ($this->autoSave)
+            $this->saveItems();
     }
 
     /**

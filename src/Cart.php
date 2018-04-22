@@ -59,6 +59,38 @@ class Cart
 
     /**
      * @param CartItemInterface $item
+     * @param int $quantity
+     */
+    public function updateQuantity(CartItemInterface $item, int $quantity): void
+    {
+        if (isset($this->items[$item->getId()])) {
+            $this->updateQuantityById($item->getId(), $quantity);
+        } else {
+            $item->setQuantity($quantity);
+            $this->add($item);
+        }
+    }
+
+    /**
+     * @param $id
+     * @param int $quantity
+     */
+    public function updateQuantityById($id, int $quantity)
+    {
+        if ($quantity == 0) {
+            $this->removeById($id);
+        }
+
+        if (isset($this->items[$id])) {
+            $this->items[$id]->setQuantity($quantity);
+        }
+
+        if ($this->autoSave)
+            $this->saveItems();
+    }
+
+    /**
+     * @param CartItemInterface $item
      * @return void
      */
     public function remove(CartItemInterface $item): void

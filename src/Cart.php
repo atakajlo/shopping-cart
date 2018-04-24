@@ -45,10 +45,10 @@ class Cart
      */
     public function add(CartItemInterface $item): void
     {
-        if (isset($this->items[$item->getId()])) {
-            $quantity = $this->items[$item->getId()]->getQuantity() + $item->getQuantity();
-            $this->items[$item->getId()]->setQuantity($quantity);
-            $this->items[$item->getId()]->setPrice($item->getPrice());
+        if ($currentItem = $this->getItemById($item->getId())) {
+            $quantity = $currentItem->getQuantity() + $item->getQuantity();
+            $currentItem->setQuantity($quantity);
+            $currentItem->setPrice($item->getPrice());
         } else {
             $this->items[$item->getId()] = $item;
         }
@@ -63,7 +63,7 @@ class Cart
      */
     public function updateQuantity(CartItemInterface $item, int $quantity): void
     {
-        if (isset($this->items[$item->getId()])) {
+        if (array_key_exists($item->getId(), $this->items)) {
             $this->updateQuantityById($item->getId(), $quantity);
         } else {
             $item->setQuantity($quantity);
@@ -81,8 +81,8 @@ class Cart
             $this->removeById($id);
         }
 
-        if (isset($this->items[$id])) {
-            $this->items[$id]->setQuantity($quantity);
+        if ($item = $this->getItemById($id)) {
+            $item->setQuantity($quantity);
         }
 
         if ($this->autoSave)
@@ -108,6 +108,15 @@ class Cart
 
         if ($this->autoSave)
             $this->saveItems();
+    }
+
+    /**
+     * @param $id
+     * @return CartItemInterface|null
+     */
+    public function getItemById($id): ?CartItemInterface
+    {
+        return $this->items[$id] ?? null;
     }
 
     /**

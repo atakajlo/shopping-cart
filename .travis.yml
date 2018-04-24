@@ -1,0 +1,16 @@
+language: php
+
+php:
+  - 7.1
+
+# faster builds on new travis setup not using sudo
+sudo: false
+
+# install dependencies
+install:
+  - travis_retry composer self-update && composer --version
+  - travis_retry composer update --prefer-dist --no-interaction
+
+# run tests
+script:
+  - vendor/bin/phpunit

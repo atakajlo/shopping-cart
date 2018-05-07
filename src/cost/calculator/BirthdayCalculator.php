@@ -1,7 +1,9 @@
 <?php
 
-namespace atakajlo\cart\calculator;
+namespace atakajlo\cart\cost\calculator;
 
+use atakajlo\cart\cost\Cost;
+use atakajlo\cart\cost\Discount;
 use atakajlo\cart\item\CartItemInterface;
 use DateTime;
 
@@ -39,13 +41,14 @@ class BirthdayCalculator implements CalculatorInterface
 
     /**
      * @param CartItemInterface[] $items
-     * @return float
+     * @return Cost
      */
-    public function getCost($items): float
+    public function getCost($items): Cost
     {
         $cost = $this->next->getCost($items);
         if ($this->birthday == $this->now) {
-            return (1 - $this->percent / 100) * $cost;
+            $discount = new Discount(($this->percent / 100) * $cost->getOrigin(), 'Скидка ко дню рождения');
+            return $cost->withDiscount($discount);
         }
         return $cost;
     }

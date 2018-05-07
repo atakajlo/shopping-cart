@@ -2,7 +2,7 @@
 
 namespace tests;
 
-use atakajlo\cart\calculator\SimpleCalculator;
+use atakajlo\cart\cost\calculator\SimpleCalculator;
 use atakajlo\cart\Cart;
 use atakajlo\cart\item\CartItem;
 use PHPUnit\Framework\TestCase;
@@ -100,6 +100,6 @@ class CartTest extends TestCase
     {
         $this->cart->add(new CartItem(1, 100, 1));
         $this->cart->add(new CartItem(2, 200, 2));
-        $this->assertEquals(500, $this->cart->getCost());
+        $this->assertEquals(500, $this->cart->getCost()->getTotal());
     }
 }

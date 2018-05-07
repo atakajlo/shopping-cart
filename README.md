@@ -27,7 +27,7 @@ to the `require` section of your `composer.json`.
 1. Configure cart extension
 
 ```php
-use atakajlo\cart\calculator\SimpleCalculator;
+use atakajlo\cart\cost\calculator\SimpleCalculator;
 use atakajlo\cart\Cart;
 use atakajlo\cart\item\CartItem;
 use atakajlo\cart\storage\SessionStorage;

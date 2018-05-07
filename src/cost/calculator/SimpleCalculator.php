@@ -1,21 +1,22 @@
 <?php
 
-namespace atakajlo\cart\calculator;
+namespace atakajlo\cart\cost\calculator;
 
+use atakajlo\cart\cost\Cost;
 use atakajlo\cart\item\CartItemInterface;
 
 class SimpleCalculator implements CalculatorInterface
 {
     /**
      * @param CartItemInterface[] $items
-     * @return float
+     * @return Cost
      */
-    public function getCost($items): float
+    public function getCost($items): Cost
     {
         $cost = 0;
         foreach ($items as $item) {
             $cost += $item->getCost();
         }
-        return $cost;
+        return new Cost($cost);
     }
 }

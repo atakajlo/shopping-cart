@@ -2,7 +2,8 @@
 
 namespace atakajlo\cart;
 
-use atakajlo\cart\calculator\CalculatorInterface;
+use atakajlo\cart\cost\calculator\CalculatorInterface;
+use atakajlo\cart\cost\Cost;
 use atakajlo\cart\item\CartItemInterface;
 use atakajlo\cart\storage\StorageInterface;
 
@@ -120,9 +121,9 @@ class Cart
     }
 
     /**
-     * @return float
+     * @return Cost
      */
-    public function getCost(): float
+    public function getCost(): Cost
     {
         return $this->calculator->getCost($this->items);
     }

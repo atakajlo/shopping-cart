@@ -1,8 +1,9 @@
 <?php
 
-namespace tests\calculator;
+namespace tests\cost\calculator;
 
-use atakajlo\cart\calculator\CalculatorInterface;
+use atakajlo\cart\cost\calculator\CalculatorInterface;
+use atakajlo\cart\cost\Cost;
 use atakajlo\cart\item\CartItemInterface;
 
 class TestCalculator implements CalculatorInterface
@@ -16,10 +17,10 @@ class TestCalculator implements CalculatorInterface
 
     /**
      * @param CartItemInterface[] $items
-     * @return float
+     * @return Cost
      */
-    public function getCost($items): float
+    public function getCost($items): Cost
     {
-        return $this->value;
+        return new Cost($this->value);
     }
 }

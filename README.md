@@ -66,7 +66,7 @@ $totalCost = $cart->getCost();
 ## Tests
 
 ```
-./vendor/bin/phpunit
+$ ./vendor/bin/phpunit
 ```
 
 ## License

@@ -62,10 +62,10 @@ class Cart
      * @param CartItemInterface $item
      * @param int $quantity
      */
-    public function updateQuantity(CartItemInterface $item, int $quantity): void
+    public function changeQuantity(CartItemInterface $item, int $quantity): void
     {
         if (array_key_exists($item->getId(), $this->items)) {
-            $this->updateQuantityById($item->getId(), $quantity);
+            $this->changeQuantityById($item->getId(), $quantity);
         } else {
             $item->setQuantity($quantity);
             $this->add($item);
@@ -76,7 +76,7 @@ class Cart
      * @param $id
      * @param int $quantity
      */
-    public function updateQuantityById($id, int $quantity)
+    public function changeQuantityById($id, int $quantity)
     {
         if ($quantity == 0) {
             $this->removeById($id);

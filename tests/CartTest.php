@@ -53,7 +53,7 @@ class CartTest extends TestCase
         $item = new CartItem(1, 100, 4);
         $this->cart->add($item);
         $quantity = $item->getQuantity() + 1;
-        $this->cart->updateQuantity($item, $quantity);
+        $this->cart->changeQuantity($item, $quantity);
         /** @var CartItem $cartItem */
         $cartItem = current($this->cart->getItems());
         $this->assertEquals(5, $cartItem->getQuantity());
@@ -64,7 +64,7 @@ class CartTest extends TestCase
         $item1 = new CartItem(1, 100, 2);
         $item2 = new CartItem(2, 100, 1);
         $this->cart->add($item1);
-        $this->cart->updateQuantity($item2, 2);
+        $this->cart->changeQuantity($item2, 2);
         $this->assertCount(2, $this->cart->getItems());
         $this->assertEquals(2, $item1->getQuantity());
         $this->assertEquals(2, $item2->getQuantity());

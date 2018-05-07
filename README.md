@@ -48,7 +48,7 @@ $cart->add($cartItem);
 3. Update item quantity
 
 ```php
-$cart->updateQuantity($cartItem, 5);
+$cart->changeQuantity($cartItem, 5);
 ```
 
 4. Get all items

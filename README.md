@@ -60,7 +60,7 @@ $items = $cart->getItems();
 5. Get cart total cost
 
 ```php
-$totalCost = $cart->getCost();
+$totalCost = $cart->getCost()->getTotal();
 ```
 
 ## Tests

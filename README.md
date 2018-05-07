@@ -1,4 +1,4 @@
-### Shopping cart
+# Shopping cart
 
 Framework independent cart extension. Use in project whatever you want!
 

@@ -1,6 +1,6 @@
 {
     "name": "atakajlo/shopping-cart",
-    "description": "Basic cart component for your site",
+    "description": "Framework independent cart component for your site",
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "^7.1"

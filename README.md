@@ -3,6 +3,10 @@
 Framework independent cart extension. Use in project whatever you want!
 
 [![Build Status](https://travis-ci.org/atakajlo/shopping-cart.svg?branch=master)](https://travis-ci.org/atakajlo/shopping-cart)
+[![Latest Stable Version](https://poser.pugx.org/atakajlo/shopping-cart/v/stable)](https://packagist.org/packages/atakajlo/shopping-cart)
+[![Total Downloads](https://poser.pugx.org/atakajlo/shopping-cart/downloads)](https://packagist.org/packages/atakajlo/shopping-cart)
+[![Latest Unstable Version](https://poser.pugx.org/atakajlo/shopping-cart/v/unstable)](https://packagist.org/packages/atakajlo/shopping-cart)
+[![License](https://poser.pugx.org/atakajlo/shopping-cart/license)](https://packagist.org/packages/atakajlo/shopping-cart)
 
 ## Installation
 

@@ -21,7 +21,7 @@ $ composer require atakajlo/shopping-cart
 or add
 
 ```
-"atakajlo/shopping-cart": "^1.0"
+"atakajlo/shopping-cart": "^1.1"
 ```
 
 to the `require` section of your `composer.json`. 
@@ -52,7 +52,7 @@ $cart->add($cartItem);
 3. Update item quantity
 
 ```php
-$cart->changeQuantity($cartItem, 5);
+$cart->changeQuantityById($cartItem->getId(), 5);
 ```
 
 4. Get all items

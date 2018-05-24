@@ -48,10 +48,9 @@ class Cart
     {
         if ($currentItem = $this->getItemById($item->getId())) {
             $quantity = $currentItem->getQuantity() + $item->getQuantity();
-            $currentItem->setQuantity($quantity);
-        } else {
-            $this->items[$item->getId()] = $item;
+            $item = $currentItem->changeQuantity($quantity);
         }
+        $this->items[$item->getId()] = $item;
 
         if ($this->autoSave)
             $this->saveItems();
@@ -66,8 +65,7 @@ class Cart
         if (array_key_exists($item->getId(), $this->items)) {
             $this->changeQuantityById($item->getId(), $quantity);
         } else {
-            $item->setQuantity($quantity);
-            $this->add($item);
+            $this->add($item->changeQuantity($quantity));
         }
     }
 
@@ -82,7 +80,7 @@ class Cart
         }
 
         if ($item = $this->getItemById($id)) {
-            $item->setQuantity($quantity);
+            $this->items[$item->getId()] = $item->changeQuantity($quantity);
         }
 
         if ($this->autoSave)

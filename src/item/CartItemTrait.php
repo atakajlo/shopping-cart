@@ -22,14 +22,6 @@ trait CartItemTrait
     }
 
     /**
-     * @param int $quantity
-     */
-    public function setQuantity(int $quantity): void
-    {
-        $this->quantity = $quantity;
-    }
-
-    /**
      * @return float
      */
     public function getCost(): float
@@ -43,13 +35,5 @@ trait CartItemTrait
     public function getPrice(): float
     {
         return $this->price;
-    }
-
-    /**
-     * @param float $price
-     */
-    public function setPrice(float $price): void
-    {
-        $this->price = $price;
     }
 }

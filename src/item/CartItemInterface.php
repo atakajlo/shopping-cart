@@ -21,8 +21,9 @@ interface CartItemInterface
 
     /**
      * @param int $quantity
+     * @return CartItemInterface
      */
-    public function setQuantity(int $quantity): void;
+    public function changeQuantity(int $quantity): CartItemInterface;
 
     /**
      * @return float

@@ -66,8 +66,8 @@ class CartTest extends TestCase
         $this->cart->add($item1);
         $this->cart->changeQuantity($item2, 2);
         $this->assertCount(2, $this->cart->getItems());
-        $this->assertEquals(2, $item1->getQuantity());
-        $this->assertEquals(2, $item2->getQuantity());
+        $this->assertEquals(2, $this->cart->getItemById($item1->getId())->getQuantity());
+        $this->assertEquals(2, $this->cart->getItemById($item2->getId())->getQuantity());
     }
 
     public function testRemoveById()

@@ -49,7 +49,6 @@ class Cart
         if ($currentItem = $this->getItemById($item->getId())) {
             $quantity = $currentItem->getQuantity() + $item->getQuantity();
             $currentItem->setQuantity($quantity);
-            $currentItem->setPrice($item->getPrice());
         } else {
             $this->items[$item->getId()] = $item;
         }

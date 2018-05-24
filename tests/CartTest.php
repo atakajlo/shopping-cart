@@ -45,7 +45,7 @@ class CartTest extends TestCase
         /** @var CartItem $cartItem */
         $cartItem = current($this->cart->getItems());
         $this->assertEquals(9, $cartItem->getQuantity());
-        $this->assertEquals(200, $cartItem->getPrice());
+        $this->assertEquals(900, $cartItem->getCost());
     }
 
     public function testUpdateExist()

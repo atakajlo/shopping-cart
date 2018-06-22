@@ -27,7 +27,7 @@ class Cart
      */
     private $autoSave;
     /**
-     * @var ComparatorInterface
+     * @var ComparatorInterface|null
      */
     private $comparator;
 
@@ -38,7 +38,7 @@ class Cart
      * @param ComparatorInterface $comparator
      * @param bool $autoSave
      */
-    public function __construct(StorageInterface $storage, CalculatorInterface $calculator, ComparatorInterface $comparator, bool $autoSave = true)
+    public function __construct(StorageInterface $storage, CalculatorInterface $calculator, ?ComparatorInterface $comparator = null, bool $autoSave = true)
     {
         $this->storage = $storage;
         $this->calculator = $calculator;
@@ -188,6 +188,7 @@ class Cart
      */
     public function sort(): void
     {
-        uasort($this->items, [$this->comparator, 'compare']);
+        if (! is_null($this->comparator))
+            uasort($this->items, [$this->comparator, 'compare']);
     }
 }

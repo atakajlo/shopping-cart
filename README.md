@@ -40,7 +40,7 @@ use atakajlo\cart\sort\IdComparator;
 $cart = new Cart(
     new SessionStorage(),
     new SimpleCalculator(),
-    new IdComparator()
+    new IdComparator() //optional
 );
 ```
 

@@ -20,8 +20,7 @@ class CartTest extends TestCase
     {
         $this->cart = new Cart(
             new storage\FakeStorage(),
-            new SimpleCalculator(),
-            new IdComparator()
+            new SimpleCalculator()
         );
         parent::setUp();
     }
@@ -109,11 +108,30 @@ class CartTest extends TestCase
 
     public function testSort()
     {
-        $this->cart->add(new CartItem(2, 200, 2));
-        $this->cart->add(new CartItem(1, 100, 1));
+        $cart = new Cart(
+            new storage\FakeStorage(),
+            new SimpleCalculator(),
+            new IdComparator()
+        );
+        $cart->add(new CartItem(2, 200, 2));
+        $cart->add(new CartItem(1, 100, 1));
 
         /** @var CartItemInterface $firstElement */
-        $firstElement = current($this->cart->getItems());
+        $firstElement = current($cart->getItems());
         $this->assertEquals(1, $firstElement->getId());
+    }
+
+    public function testWithoutSort()
+    {
+        $cart = new Cart(
+            new storage\FakeStorage(),
+            new SimpleCalculator()
+        );
+        $cart->add(new CartItem(2, 200, 2));
+        $cart->add(new CartItem(1, 100, 1));
+
+        /** @var CartItemInterface $firstElement */
+        $firstElement = current($cart->getItems());
+        $this->assertEquals(2, $firstElement->getId());
     }
 }

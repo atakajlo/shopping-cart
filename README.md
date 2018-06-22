@@ -21,7 +21,7 @@ $ composer require atakajlo/shopping-cart
 or add
 
 ```
-"atakajlo/shopping-cart": "^1.1"
+"atakajlo/shopping-cart": "^1.2"
 ```
 
 to the `require` section of your `composer.json`. 

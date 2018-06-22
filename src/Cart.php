@@ -5,6 +5,7 @@ namespace atakajlo\cart;
 use atakajlo\cart\cost\calculator\CalculatorInterface;
 use atakajlo\cart\cost\Cost;
 use atakajlo\cart\item\CartItemInterface;
+use atakajlo\cart\sort\ComparatorInterface;
 use atakajlo\cart\storage\StorageInterface;
 
 class Cart
@@ -25,17 +26,23 @@ class Cart
      * @var bool
      */
     private $autoSave;
+    /**
+     * @var ComparatorInterface
+     */
+    private $comparator;
 
     /**
      * Cart constructor.
      * @param StorageInterface $storage
      * @param CalculatorInterface $calculator
+     * @param ComparatorInterface $comparator
      * @param bool $autoSave
      */
-    public function __construct(StorageInterface $storage, CalculatorInterface $calculator, bool $autoSave = true)
+    public function __construct(StorageInterface $storage, CalculatorInterface $calculator, ComparatorInterface $comparator, bool $autoSave = true)
     {
         $this->storage = $storage;
         $this->calculator = $calculator;
+        $this->comparator = $comparator;
         $this->autoSave = $autoSave;
         $this->loadItems();
     }
@@ -46,11 +53,19 @@ class Cart
      */
     public function add(CartItemInterface $item): void
     {
-        if ($currentItem = $this->getItemById($item->getId())) {
-            $quantity = $currentItem->getQuantity() + $item->getQuantity();
-            $item = $currentItem->changeQuantity($quantity);
+        foreach ($this->items as $i => $current) {
+            if ($item->getId() == $current->getId()) {
+                $quantity = $current->getQuantity() + $item->getQuantity();
+                $this->items[$i] = $item->changeQuantity($quantity);
+
+                if ($this->autoSave)
+                    $this->saveItems();
+
+                return;
+            }
         }
-        $this->items[$item->getId()] = $item;
+
+        $this->items[] = $item;
 
         if ($this->autoSave)
             $this->saveItems();
@@ -62,25 +77,23 @@ class Cart
      */
     public function changeQuantity(CartItemInterface $item, int $quantity): void
     {
-        if (array_key_exists($item->getId(), $this->items)) {
-            $this->changeQuantityById($item->getId(), $quantity);
-        } else {
-            $this->add($item->changeQuantity($quantity));
-        }
+        $this->changeQuantityById($item->getId(), $quantity);
     }
 
     /**
      * @param $id
      * @param int $quantity
      */
-    public function changeQuantityById($id, int $quantity)
+    public function changeQuantityById($id, int $quantity): void
     {
         if ($quantity == 0) {
             $this->removeById($id);
-        }
-
-        if ($item = $this->getItemById($id)) {
-            $this->items[$item->getId()] = $item->changeQuantity($quantity);
+        } else {
+            foreach ($this->items as $i => $item) {
+                if ($item->getId() == $id) {
+                    $this->items[$i] = $item->changeQuantity($quantity);
+                }
+            }
         }
 
         if ($this->autoSave)
@@ -102,7 +115,11 @@ class Cart
      */
     public function removeById($id): void
     {
-        unset($this->items[$id]);
+        foreach ($this->items as $i => $item) {
+            if ($item->getId() == $id) {
+                unset($this->items[$i]);
+            }
+        }
 
         if ($this->autoSave)
             $this->saveItems();
@@ -110,11 +127,17 @@ class Cart
 
     /**
      * @param $id
-     * @return CartItemInterface|null
+     * @return CartItemInterface
      */
-    public function getItemById($id): ?CartItemInterface
+    public function getItemById($id): CartItemInterface
     {
-        return $this->items[$id] ?? null;
+        foreach ($this->items as $item) {
+            if ($item->getId() == $id) {
+                return $item;
+            }
+        }
+
+        throw new \DomainException('Illegal item ID');
     }
 
     /**
@@ -139,6 +162,7 @@ class Cart
     public function loadItems(): void
     {
         $this->items = $this->storage->load();
+        $this->sort();
     }
 
     /**
@@ -147,6 +171,7 @@ class Cart
     public function saveItems(): void
     {
         $this->storage->save($this->items);
+        $this->sort();
     }
 
     /**
@@ -156,5 +181,13 @@ class Cart
     {
         $this->items = [];
         $this->storage->clear();
+    }
+
+    /**
+     * Sorting cart items by some strategy
+     */
+    public function sort(): void
+    {
+        uasort($this->items, [$this->comparator, 'compare']);
     }
 }

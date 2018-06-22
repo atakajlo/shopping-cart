@@ -5,6 +5,8 @@ namespace tests;
 use atakajlo\cart\cost\calculator\SimpleCalculator;
 use atakajlo\cart\Cart;
 use atakajlo\cart\item\CartItem;
+use atakajlo\cart\item\CartItemInterface;
+use atakajlo\cart\sort\IdComparator;
 use PHPUnit\Framework\TestCase;
 
 class CartTest extends TestCase
@@ -18,7 +20,8 @@ class CartTest extends TestCase
     {
         $this->cart = new Cart(
             new storage\FakeStorage(),
-            new SimpleCalculator()
+            new SimpleCalculator(),
+            new IdComparator()
         );
         parent::setUp();
     }
@@ -43,9 +46,9 @@ class CartTest extends TestCase
         $this->cart->add(new CartItem(1, 100, 5));
         $this->cart->add(new CartItem(1, 200, 4));
         /** @var CartItem $cartItem */
-        $cartItem = current($this->cart->getItems());
+        $cartItem = $this->cart->getItemById(1);
         $this->assertEquals(9, $cartItem->getQuantity());
-        $this->assertEquals(900, $cartItem->getCost());
+        $this->assertEquals(1800, $cartItem->getCost());
     }
 
     public function testUpdateExist()
@@ -62,12 +65,13 @@ class CartTest extends TestCase
     public function testUpdateNew()
     {
         $item1 = new CartItem(1, 100, 2);
-        $item2 = new CartItem(2, 100, 1);
         $this->cart->add($item1);
-        $this->cart->changeQuantity($item2, 2);
-        $this->assertCount(2, $this->cart->getItems());
+        $this->assertCount(1, $this->cart->getItems());
         $this->assertEquals(2, $this->cart->getItemById($item1->getId())->getQuantity());
-        $this->assertEquals(2, $this->cart->getItemById($item2->getId())->getQuantity());
+
+        $item2 = new CartItem(2, 100, 1);
+        $this->cart->changeQuantity($item2, 2);
+        $this->assertCount(1, $this->cart->getItems());
     }
 
     public function testRemoveById()
@@ -101,5 +105,15 @@ class CartTest extends TestCase
         $this->cart->add(new CartItem(1, 100, 1));
         $this->cart->add(new CartItem(2, 200, 2));
         $this->assertEquals(500, $this->cart->getCost()->getTotal());
+    }
+
+    public function testSort()
+    {
+        $this->cart->add(new CartItem(2, 200, 2));
+        $this->cart->add(new CartItem(1, 100, 1));
+
+        /** @var CartItemInterface $firstElement */
+        $firstElement = current($this->cart->getItems());
+        $this->assertEquals(1, $firstElement->getId());
     }
 }

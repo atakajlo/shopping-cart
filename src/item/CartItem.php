@@ -29,6 +29,6 @@ class CartItem implements CartItemInterface
      */
     public function changeQuantity(int $quantity): CartItemInterface
     {
-        return new static($this->getId(), $this->getPrice(), $quantity);
+        return new static($this->id, $this->price, $quantity);
     }
 }

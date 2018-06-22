@@ -35,10 +35,12 @@ use atakajlo\cart\cost\calculator\SimpleCalculator;
 use atakajlo\cart\Cart;
 use atakajlo\cart\item\CartItem;
 use atakajlo\cart\storage\SessionStorage;
+use atakajlo\cart\sort\IdComparator;
 
 $cart = new Cart(
     new SessionStorage(),
-    new SimpleCalculator()
+    new SimpleCalculator(),
+    new IdComparator()
 );
 ```
 
